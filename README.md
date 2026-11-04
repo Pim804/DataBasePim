@@ -63,4 +63,4 @@ SELECT * FROM public.fn_totais_movimentacoes(
     '2026-12-01 00:00:00+00'::timestamptz
 );
 ```
-<img src="ScreenshotFrom2026-11-0417-17-17.png"
+<img src="ScreenshotFrom2026-11-0417-17-17.png">
