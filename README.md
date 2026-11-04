@@ -2,39 +2,6 @@
 
 Banco PostgreSQL utilizado pelo site e pela API do OptiStock para gerenciar peças, fornecedores, categorias, movimentações de estoque e usuários.
 
-## Arquivos
-
-- `datapim.sql`: estrutura completa do banco, organizada em blocos comentados.
-- `README.md`: documentação e instruções de instalação.
-
-## Requisitos
-
-- PostgreSQL 18, versão utilizada para gerar o SQL.
-- pgAdmin ou cliente `psql`.
-- Um banco vazio e um usuário com permissão para criar os objetos.
-
-## Instalação pelo pgAdmin
-
-1. Crie um banco vazio, por exemplo `datapim_novo`.
-2. Selecione esse banco e abra o **Query Tool**.
-3. Abra ou cole o conteúdo completo de `datapim.sql`.
-4. Execute todo o script, incluindo `BEGIN` e `COMMIT`.
-5. Atualize a árvore **Schemas > public > Tables** para visualizar as tabelas.
-
-O script cria os objetos dentro do banco selecionado; ele não cria o banco nem configura usuários do PostgreSQL. Não execute no `datapim` já configurado: as tabelas existentes causarão conflitos.
-
-Se ocorrer um erro, execute `ROLLBACK;`, corrija a causa e tente novamente em um banco vazio.
-
-## Instalação pelo terminal
-
-Com o banco vazio já criado, execute na pasta `database`:
-
-```bash
-psql -h localhost -p 5432 -U SEU_USUARIO -d datapim_novo -W -v ON_ERROR_STOP=1 -f datapim.sql
-```
-
-Substitua `SEU_USUARIO` e o nome do banco conforme seu ambiente. A autenticação precisa estar liberada para esse usuário e banco.
-
 ## Tabelas
 
 | Tabela | Finalidade |
@@ -96,11 +63,3 @@ SELECT * FROM public.fn_totais_movimentacoes(
     '2026-12-01 00:00:00+00'::timestamptz
 );
 ```
-
-## Integração com o site
-
-O site utiliza Entity Framework Core e Npgsql. O SQL inclui as quatro migrations correspondentes à estrutura exportada, permitindo que essa versão do site reconheça o esquema instalado.
-
-Configure `ConnectionStrings:OptiStock` para apontar ao banco instalado. No ambiente local preparado neste projeto, as configurações ficam no arquivo privado `src/OptiStock.Web/appsettings.Development.local.json`.
-
-O script não inclui usuários, senhas ou dados de negócio. A conta administrativa e os perfis iniciais são criados pelo site, conforme a configuração `BootstrapAdmin`.
